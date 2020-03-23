@@ -1,5 +1,51 @@
 import json
 
+def compile_NFA_to_DFA(alphabet, initial_state, delta, states, final_states):
+	"""This is to compile the translated NFA into a DFA format
+	Args:
+		alphabet (list): All the accepted characters in the language
+		initial_state (list): The starting start of the NFA
+		delta (list): The function that decides which state to go to
+		states (list): A list of all of the new states that are needed for the DFA
+		final_states (list): All the final states that validate an input
+	"""
+	data = dict()
+	data["alphabet"] = alphabet
+	data["states"] = states
+	data["initial_state"] = initial_state
+	data["delta"] = delta
+	data["final_states"] = final_states
+
+
+	data = json.dumps(data)
+	with open('NFAToDFA.json', 'w') as f:
+		f.write(data)
+
+def cleans_states(states, delta, final_states):
+	"""Indexes the states such that the DFA reader will be able to use them
+	Args:
+		states (list): The NFA states that have been translated
+		delta (list): The DFA states that have been translated
+		final_states (list): The DFA final states
+	Returns:
+		delta (list): The delta now cleaned with states as individual numbers
+		states (list): Now a list of states that works as an index
+		final_states (list): The clean states now
+
+	"""
+	for i in range(len(delta)):
+		for j in range(len(delta[i])):
+			index = states.index(delta[i][j])
+			delta[i][j] = index
+	for i in range(len(final_states)):
+		index = states.index(final_states[i])
+		final_states[i] = index
+
+	states = range(len(states))
+	#print(delta, states)
+	return delta, list(states), final_states
+
+
 def final_states_finder(data, new_states):
 	"""Takes in the new states and locates where the new final states will be
 	Args:
@@ -12,13 +58,12 @@ def final_states_finder(data, new_states):
 	initial_final_states = data["final_states"]
 
 	#print(data["final_states"])
-	print(new_states)
+	#print(new_states)
 	for i in range(len(new_states)):
-		print(i)
 		for j in range(len(initial_final_states)):
 			if initial_final_states[j] in new_states[i]:
 				final_states.append(new_states[i])
-	print(final_states)
+	#print(final_states)
 	return final_states
 
 
@@ -102,13 +147,18 @@ def translate(data):
 	return delta, states
 
 if __name__ == "__main__":
-	with open('binaryTestNFA.json', 'r') as f:
+	with open('test2NFA.json', 'r') as f:
 		data = f.read()
 	data = json.loads(data)
 	states = []
 	delta = []
 	final_states= []
+	
 
+	initial_state = data["initial_state"]
 	delta,states = translate(data)
 	final_states = final_states_finder(data, states)
+	alphabet = data["alphabet"]
+	delta,states,final_states = cleans_states(states, delta, final_states)
 
+	compile_NFA_to_DFA(alphabet, initial_state, delta, states, final_states)

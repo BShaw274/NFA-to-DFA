@@ -78,23 +78,16 @@ class DFA:
 
 """
 if __name__ == "__main__":
-	with open('characterTest.json', 'r') as f:
+	with open('NFAtoDFA.json', 'r') as f:
 		data = f.read()
 		
-	print("This is the DFA Definition")
-	print(data)
+	#print("This is the DFA Definition")
+	#print(data)
 	data = json.loads(data)
 
 	place_holder = DFA(**data)
 
-
-
-
-
-
-
-
-	userin = "aabba"
+	userin = "abab"
 
 	for i in userin:
 		if place_holder.is_in_alphabet(i) == False:
