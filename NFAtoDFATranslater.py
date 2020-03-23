@@ -1,5 +1,28 @@
 import json
 
+def final_states_finder(data, new_states):
+	"""Takes in the new states and locates where the new final states will be
+	Args:
+		data (dict): The NFA definition
+		new_states (list): List of the NFA states translated into the DFA states
+	Returns:
+		list: The new final states
+	"""
+	final_states = []
+	initial_final_states = data["final_states"]
+
+	#print(data["final_states"])
+	print(new_states)
+	for i in range(len(new_states)):
+		print(i)
+		for j in range(len(initial_final_states)):
+			if initial_final_states[j] in new_states[i]:
+				final_states.append(new_states[i])
+	print(final_states)
+	return final_states
+
+
+
 def epsilon_grouping(data, state):
 	"""Recursively finds all the states reachable from the given
 	state by epsilon transition
@@ -61,10 +84,10 @@ def explore(data, state):
 	return result
 
 def translate(data):
-	states = epsilon_grouping(data, data['initial_state'])
-	states_to_create = explore(data, states)
+	states = [epsilon_grouping(data, data['initial_state'])]
+	states_to_create = explore(data, states[0])
 	delta = []
-	delta.append(explore(data, states))
+	delta.append(explore(data, states[0]))
 	while states_to_create:
 		next_state = states_to_create.pop()
 		states.append(next_state)
@@ -73,11 +96,19 @@ def translate(data):
 		for i in new_delta:
 			if (i not in states_to_create and i not in states):
 				states_to_create.append(i)
-	print("states", list(enumerate(states)))
-	print("delta", list(enumerate(delta)))
+	#print("states", list(enumerate(states)))
+	#print("delta", list(enumerate(delta)))
+
+	return delta, states
 
 if __name__ == "__main__":
 	with open('binaryTestNFA.json', 'r') as f:
 		data = f.read()
 	data = json.loads(data)
-	translate(data)
+	states = []
+	delta = []
+	final_states= []
+
+	delta,states = translate(data)
+	final_states = final_states_finder(data, states)
+
