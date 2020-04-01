@@ -46,7 +46,7 @@ the translated DFA from: python ./NFAtoDFATransator.py test1NFA.json
 }
 ```
 the input values for 1 and the expected values: python ./DFAReader.py test1Input.txt
-
+```
 aba		#True
 aa		#False
 ab		#True
@@ -55,7 +55,7 @@ aaa		#False
 abab		#True
 abababab	#True
 ababaababb	#False
-
+```
 2:
 
 the NFA
@@ -80,7 +80,7 @@ the translated DFA from : python ./NFAtoDFATransator.py test2NFA.json
 }
 ```
 the input values for 2 and the expected values: python ./DFAReader.py test2Input.txt
-
+```
 a		#True
 bb		#True
 aa		#True
@@ -91,7 +91,7 @@ abaa		#False
 bbba		#False
 aaaaaaaaa	#True
 aabababab	#False
-
+```
 3:
 
 the NFA
@@ -116,7 +116,7 @@ the DFA translated from: python ./NFAtoDFATransator.py test3NFA.json
 }
 ```
 the input values for 3 and the expected values: python ./DFAReader.py test3Input.txt
-
+```
 01		#True
 00		#False
 01010101	#True
@@ -125,5 +125,6 @@ the input values for 3 and the expected values: python ./DFAReader.py test3Input
 11001		#False
 100101		#False
 10101010101	#False
+```
 
 
