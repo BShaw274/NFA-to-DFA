@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.5" />
+<title>NFAtoDFATranslater API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>NFAtoDFATranslater</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import json
+
+#examples https://www.cs.wcupa.edu/rkline/fcs/nfas.html
+
+def compile_NFA_to_DFA(alphabet, initial_state, delta, states, final_states):
+        &#34;&#34;&#34;This is to compile the translated NFA into a DFA format
+        Args:
+                alphabet (list): All the accepted characters in the language
+                initial_state (list): The starting start of the NFA
+                delta (list): The function that decides which state to go to
+                states (list): A list of all of the new states that are needed for the DFA
+                final_states (list): All the final states that validate an input
+        &#34;&#34;&#34;
+        data = dict()
+        data[&#34;alphabet&#34;] = alphabet
+        data[&#34;states&#34;] = states
+        data[&#34;initial_state&#34;] = initial_state
+        data[&#34;delta&#34;] = delta
+        data[&#34;final_states&#34;] = final_states
+
+
+        data = json.dumps(data)
+        with open(&#39;NFAToDFA.json&#39;, &#39;w&#39;) as f:
+                f.write(data)
+
+def cleans_states(states, delta, final_states):
+        &#34;&#34;&#34;Indexes the states such that the DFA reader will be able to use them
+        Args:
+                states (list): The NFA states that have been translated
+                delta (list): The DFA states that have been translated
+                final_states (list): The DFA final states
+        Returns:
+                delta (list): The delta now cleaned with states as individual numbers
+                states (list): Now a list of states that works as an index
+                final_states (list): The clean states now
+
+        &#34;&#34;&#34;
+        for i in range(len(delta)):
+                for j in range(len(delta[i])):
+                        index = states.index(delta[i][j])
+                        delta[i][j] = index
+        for i in range(len(final_states)):
+                index = states.index(final_states[i])
+                final_states[i] = index
+
+        states = range(len(states))
+        #print(delta, states)
+        return delta, list(states), final_states
+
+
+def final_states_finder(data, new_states):
+        &#34;&#34;&#34;Takes in the new states and locates where the new final states will be
+        Args:
+                data (dict): The NFA definition
+                new_states (list): List of the NFA states translated into the DFA states
+        Returns:
+                list: The new final states
+        &#34;&#34;&#34;
+        final_states = []
+        initial_final_states = data[&#34;final_states&#34;]
+
+        #print(data[&#34;final_states&#34;])
+        #print(new_states)
+        for i in range(len(new_states)):
+                for j in range(len(initial_final_states)):
+                        if initial_final_states[j] in new_states[i]:
+                                final_states.append(new_states[i])
+        #print(final_states)
+        return final_states
+
+
+
+def epsilon_grouping(data, state):
+        &#34;&#34;&#34;Recursively finds all the states reachable from the given
+        state by epsilon transition
+
+        Args:
+                data (dict): The NFA definition
+                state (int): The state to start at
+        Returns:
+                list: The reachable states
+        &#34;&#34;&#34;
+        states = [state]
+        if state is None:
+                return [None]
+        for j in data[&#34;e&#34;][state]:
+                states += epsilon_grouping(data, j)
+        return states
+#Main
+
+def explore_for_character(data, state, character):
+        &#34;&#34;&#34;Gets all states reached when the given character is inputted
+        and the nfa is at the given state
+
+        Args:
+                data (dict): The NFA definition
+                state (list[int]): The non-deterministic state to check at
+                character (str): The character to input to the machine
+        Returns:
+                Returns a list of the reached states
+        &#34;&#34;&#34;
+        result = []
+        alphabet_index = data[&#39;alphabet&#39;].index(character)
+        for i in state:
+                if i is None:
+                        result += [None]
+                else:
+                        result += epsilon_grouping(data, data[&#39;delta&#39;][i][alphabet_index])
+        return result
+
+def explore(data, state):
+        &#34;&#34;&#34;Gets the transitions for each letter in the alphabet
+        when the NFA is in the given state
+
+        Args:
+                data (dict): The definition of the NFA
+                state(list[int]): The non-deterministic state of the NFA
+        Returns:
+                list[list]: The transitions based on the index of the letters of the alphabet
+                        NOTE: Will remove excess None&#39;s
+        &#34;&#34;&#34;
+        result = []
+        for i in data[&#39;alphabet&#39;]:
+                temp = explore_for_character(data, state, i)
+                if None in temp:
+                        while None in temp:
+                                temp.remove(None)
+                        if len(temp) == 0:
+                                temp.append(None)
+                result.append(temp)
+        return result
+
+def translate(data):
+        states = [epsilon_grouping(data, data[&#39;initial_state&#39;])]
+        states_to_create = explore(data, states[0])
+        delta = []
+        delta.append(explore(data, states[0]))
+        while states_to_create:
+                next_state = states_to_create.pop()
+                states.append(next_state)
+                new_delta = explore(data, next_state)
+                delta.append(new_delta)
+                for i in new_delta:
+                        if (i not in states_to_create and i not in states):
+                                states_to_create.append(i)
+        #print(&#34;states&#34;, list(enumerate(states)))
+        #print(&#34;delta&#34;, list(enumerate(delta)))
+
+        return delta, states
+
+if __name__ == &#34;__main__&#34;:
+        with open(&#39;test2NFA.json&#39;, &#39;r&#39;) as f:
+                data = f.read()
+        data = json.loads(data)
+        states = []
+        delta = []
+        final_states= []
+        
+
+        initial_state = data[&#34;initial_state&#34;]
+        delta,states = translate(data)
+        final_states = final_states_finder(data, states)
+        alphabet = data[&#34;alphabet&#34;]
+        delta,states,final_states = cleans_states(states, delta, final_states)
+
+        compile_NFA_to_DFA(alphabet, initial_state, delta, states, final_states)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="NFAtoDFATranslater.cleans_states"><code class="name flex">
+<span>def <span class="ident">cleans_states</span></span>(<span>states, delta, final_states)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Indexes the states such that the DFA reader will be able to use them</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>states</code></strong> :&ensp;<code>list</code></dt>
+<dd>The NFA states that have been translated</dd>
+<dt><strong><code>delta</code></strong> :&ensp;<code>list</code></dt>
+<dd>The DFA states that have been translated</dd>
+<dt><strong><code>final_states</code></strong> :&ensp;<code>list</code></dt>
+<dd>The DFA final states</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>delta</code></strong> :&ensp;<code>list</code></dt>
+<dd>The delta now cleaned with states as individual numbers</dd>
+<dt><strong><code>states</code></strong> :&ensp;<code>list</code></dt>
+<dd>Now a list of states that works as an index</dd>
+<dt><strong><code>final_states</code></strong> :&ensp;<code>list</code></dt>
+<dd>The clean states now</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cleans_states(states, delta, final_states):
+        &#34;&#34;&#34;Indexes the states such that the DFA reader will be able to use them
+        Args:
+                states (list): The NFA states that have been translated
+                delta (list): The DFA states that have been translated
+                final_states (list): The DFA final states
+        Returns:
+                delta (list): The delta now cleaned with states as individual numbers
+                states (list): Now a list of states that works as an index
+                final_states (list): The clean states now
+
+        &#34;&#34;&#34;
+        for i in range(len(delta)):
+                for j in range(len(delta[i])):
+                        index = states.index(delta[i][j])
+                        delta[i][j] = index
+        for i in range(len(final_states)):
+                index = states.index(final_states[i])
+                final_states[i] = index
+
+        states = range(len(states))
+        #print(delta, states)
+        return delta, list(states), final_states</code></pre>
+</details>
+</dd>
+<dt id="NFAtoDFATranslater.compile_NFA_to_DFA"><code class="name flex">
+<span>def <span class="ident">compile_NFA_to_DFA</span></span>(<span>alphabet, initial_state, delta, states, final_states)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This is to compile the translated NFA into a DFA format</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>alphabet</code></strong> :&ensp;<code>list</code></dt>
+<dd>All the accepted characters in the language</dd>
+<dt><strong><code>initial_state</code></strong> :&ensp;<code>list</code></dt>
+<dd>The starting start of the NFA</dd>
+<dt><strong><code>delta</code></strong> :&ensp;<code>list</code></dt>
+<dd>The function that decides which state to go to</dd>
+<dt><strong><code>states</code></strong> :&ensp;<code>list</code></dt>
+<dd>A list of all of the new states that are needed for the DFA</dd>
+<dt><strong><code>final_states</code></strong> :&ensp;<code>list</code></dt>
+<dd>All the final states that validate an input</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def compile_NFA_to_DFA(alphabet, initial_state, delta, states, final_states):
+        &#34;&#34;&#34;This is to compile the translated NFA into a DFA format
+        Args:
+                alphabet (list): All the accepted characters in the language
+                initial_state (list): The starting start of the NFA
+                delta (list): The function that decides which state to go to
+                states (list): A list of all of the new states that are needed for the DFA
+                final_states (list): All the final states that validate an input
+        &#34;&#34;&#34;
+        data = dict()
+        data[&#34;alphabet&#34;] = alphabet
+        data[&#34;states&#34;] = states
+        data[&#34;initial_state&#34;] = initial_state
+        data[&#34;delta&#34;] = delta
+        data[&#34;final_states&#34;] = final_states
+
+
+        data = json.dumps(data)
+        with open(&#39;NFAToDFA.json&#39;, &#39;w&#39;) as f:
+                f.write(data)</code></pre>
+</details>
+</dd>
+<dt id="NFAtoDFATranslater.epsilon_grouping"><code class="name flex">
+<span>def <span class="ident">epsilon_grouping</span></span>(<span>data, state)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Recursively finds all the states reachable from the given
+state by epsilon transition</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>data</code></strong> :&ensp;<code>dict</code></dt>
+<dd>The NFA definition</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>int</code></dt>
+<dd>The state to start at</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>list</code></strong></dt>
+<dd>The reachable states</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def epsilon_grouping(data, state):
+        &#34;&#34;&#34;Recursively finds all the states reachable from the given
+        state by epsilon transition
+
+        Args:
+                data (dict): The NFA definition
+                state (int): The state to start at
+        Returns:
+                list: The reachable states
+        &#34;&#34;&#34;
+        states = [state]
+        if state is None:
+                return [None]
+        for j in data[&#34;e&#34;][state]:
+                states += epsilon_grouping(data, j)
+        return states</code></pre>
+</details>
+</dd>
+<dt id="NFAtoDFATranslater.explore"><code class="name flex">
+<span>def <span class="ident">explore</span></span>(<span>data, state)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Gets the transitions for each letter in the alphabet
+when the NFA is in the given state</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>data</code></strong> :&ensp;<code>dict</code></dt>
+<dd>The definition of the NFA</dd>
+</dl>
+<p>state(list[int]): The non-deterministic state of the NFA</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code>[<code>list</code>]: <code>The</code> <code>transitions</code> <code>based</code> <code>on</code> <code>the</code> <code>index</code> of <code>the</code> <code>letters</code> of <code>the</code> <code>alphabet</code></dt>
+<dd>NOTE: Will remove excess None's</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def explore(data, state):
+        &#34;&#34;&#34;Gets the transitions for each letter in the alphabet
+        when the NFA is in the given state
+
+        Args:
+                data (dict): The definition of the NFA
+                state(list[int]): The non-deterministic state of the NFA
+        Returns:
+                list[list]: The transitions based on the index of the letters of the alphabet
+                        NOTE: Will remove excess None&#39;s
+        &#34;&#34;&#34;
+        result = []
+        for i in data[&#39;alphabet&#39;]:
+                temp = explore_for_character(data, state, i)
+                if None in temp:
+                        while None in temp:
+                                temp.remove(None)
+                        if len(temp) == 0:
+                                temp.append(None)
+                result.append(temp)
+        return result</code></pre>
+</details>
+</dd>
+<dt id="NFAtoDFATranslater.explore_for_character"><code class="name flex">
+<span>def <span class="ident">explore_for_character</span></span>(<span>data, state, character)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Gets all states reached when the given character is inputted
+and the nfa is at the given state</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>data</code></strong> :&ensp;<code>dict</code></dt>
+<dd>The NFA definition</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>list</code>[<code>int</code>]</dt>
+<dd>The non-deterministic state to check at</dd>
+<dt><strong><code>character</code></strong> :&ensp;<code>str</code></dt>
+<dd>The character to input to the machine</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Returns</code> <code>a</code> <code>list</code> of <code>the</code> <code>reached</code> <code>states</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def explore_for_character(data, state, character):
+        &#34;&#34;&#34;Gets all states reached when the given character is inputted
+        and the nfa is at the given state
+
+        Args:
+                data (dict): The NFA definition
+                state (list[int]): The non-deterministic state to check at
+                character (str): The character to input to the machine
+        Returns:
+                Returns a list of the reached states
+        &#34;&#34;&#34;
+        result = []
+        alphabet_index = data[&#39;alphabet&#39;].index(character)
+        for i in state:
+                if i is None:
+                        result += [None]
+                else:
+                        result += epsilon_grouping(data, data[&#39;delta&#39;][i][alphabet_index])
+        return result</code></pre>
+</details>
+</dd>
+<dt id="NFAtoDFATranslater.final_states_finder"><code class="name flex">
+<span>def <span class="ident">final_states_finder</span></span>(<span>data, new_states)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Takes in the new states and locates where the new final states will be</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>data</code></strong> :&ensp;<code>dict</code></dt>
+<dd>The NFA definition</dd>
+<dt><strong><code>new_states</code></strong> :&ensp;<code>list</code></dt>
+<dd>List of the NFA states translated into the DFA states</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>list</code></strong></dt>
+<dd>The new final states</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def final_states_finder(data, new_states):
+        &#34;&#34;&#34;Takes in the new states and locates where the new final states will be
+        Args:
+                data (dict): The NFA definition
+                new_states (list): List of the NFA states translated into the DFA states
+        Returns:
+                list: The new final states
+        &#34;&#34;&#34;
+        final_states = []
+        initial_final_states = data[&#34;final_states&#34;]
+
+        #print(data[&#34;final_states&#34;])
+        #print(new_states)
+        for i in range(len(new_states)):
+                for j in range(len(initial_final_states)):
+                        if initial_final_states[j] in new_states[i]:
+                                final_states.append(new_states[i])
+        #print(final_states)
+        return final_states</code></pre>
+</details>
+</dd>
+<dt id="NFAtoDFATranslater.translate"><code class="name flex">
+<span>def <span class="ident">translate</span></span>(<span>data)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def translate(data):
+        states = [epsilon_grouping(data, data[&#39;initial_state&#39;])]
+        states_to_create = explore(data, states[0])
+        delta = []
+        delta.append(explore(data, states[0]))
+        while states_to_create:
+                next_state = states_to_create.pop()
+                states.append(next_state)
+                new_delta = explore(data, next_state)
+                delta.append(new_delta)
+                for i in new_delta:
+                        if (i not in states_to_create and i not in states):
+                                states_to_create.append(i)
+        #print(&#34;states&#34;, list(enumerate(states)))
+        #print(&#34;delta&#34;, list(enumerate(delta)))
+
+        return delta, states</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="NFAtoDFATranslater.cleans_states" href="#NFAtoDFATranslater.cleans_states">cleans_states</a></code></li>
+<li><code><a title="NFAtoDFATranslater.compile_NFA_to_DFA" href="#NFAtoDFATranslater.compile_NFA_to_DFA">compile_NFA_to_DFA</a></code></li>
+<li><code><a title="NFAtoDFATranslater.epsilon_grouping" href="#NFAtoDFATranslater.epsilon_grouping">epsilon_grouping</a></code></li>
+<li><code><a title="NFAtoDFATranslater.explore" href="#NFAtoDFATranslater.explore">explore</a></code></li>
+<li><code><a title="NFAtoDFATranslater.explore_for_character" href="#NFAtoDFATranslater.explore_for_character">explore_for_character</a></code></li>
+<li><code><a title="NFAtoDFATranslater.final_states_finder" href="#NFAtoDFATranslater.final_states_finder">final_states_finder</a></code></li>
+<li><code><a title="NFAtoDFATranslater.translate" href="#NFAtoDFATranslater.translate">translate</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.5</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
