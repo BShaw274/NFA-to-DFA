@@ -26,23 +26,23 @@ THE THREE TESTS:
 the DFA with definition
 ```json
 {
-	"alphabet": ["a", "b"],		#this is the alphabet
-	"states" : [0,1,2],		#these are all the states
-	"initial_state" : 0,		#This is the initial state
-	"delta": [[1, null], [null, 2], [0, null]],	#this is the delta that describes state transitions
-	"e": [[],[],[0]],		#this describles the epsilon transitions
-	"final_states" : [0]		#this is the final states
+	"alphabet": ["a", "b"],	
+	"states" : [0,1,2],	
+	"initial_state" : 0,	
+	"delta": [[1, null], [null, 2], [0, null]],
+	"e": [[],[],[0]],
+	"final_states" : [0]
 }
 ```
 
 the translated DFA from: python ./NFAtoDFATransator.py test1NFA.json
 ```json
 {
-	"alphabet": ["a", "b"], 	#the alphabet
-	"states": [0, 1, 2, 3, 4], 	#the states
-	"initial_state": 0, 		#the initial state
-	"delta": [[2, 1], [1, 1], [1, 3], [4, 1], [2, 3]],	#all the deltas and transitions 
-	"final_states": [0, 3, 4]	#the final states
+	"alphabet": ["a", "b"], 
+	"states": [0, 1, 2, 3, 4], 
+	"initial_state": 0, 	
+	"delta": [[2, 1], [1, 1], [1, 3], [4, 1], [2, 3]],
+	"final_states": [0, 3, 4]
 }
 ```
 the input values for 1 and the expected values: python ./DFAReader.py test1Input.txt
