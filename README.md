@@ -12,9 +12,9 @@ alphabet. The output will either verify "true" or "false" if the inputted string
 input for the machine.
 
 HOW TO USE IT:
--First: you must run this command to take in the NFA in order to translate it
+- First: you must run this command to take in the NFA in order to translate it
 	example:: python ./NFAtoDFATransator.py test1NFA.json
--Second: you then run the DFA reader with the input file for values to test
+- Second: you then run the DFA reader with the input file for values to test
 	example:: python ./DFAReader.py test1Input.txt
 
 This will then output wether each string is valid or not.
