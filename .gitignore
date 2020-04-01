@@ -1,2 +1,7 @@
 __pycache__/
-html/
+alsotest.py
+binaryTest.json
+characterTest.json
+DFATests.py
+
+

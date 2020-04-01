@@ -150,6 +150,7 @@ if __name__ == "__main__":
 
 	#this is where you change the json
 	nfa = sys.argv[1]
+	print(nfa)
 	with open(nfa, 'r') as f:
 		data = f.read()
 	data = json.loads(data)

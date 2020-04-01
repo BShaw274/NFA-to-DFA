@@ -1,7 +1,9 @@
 """
-
+This is the DFA Reader. This takes in a json and then inputs and then outputs wether the string is true or false for 
+finishing on a finishing state
 """
 import json
+import sys
 
 #DFA Class
 class DFA:
@@ -12,13 +14,10 @@ class DFA:
 		states (list): The DFA's states
 		initial_state (int): The DFA's initial state
 		delta (list[list]): The DFA's function which is contained as a states table
-		final_states (list): The DFA's final states which validites or denies the input
-		
-		
+		final_states (list): The DFA's final states which validites or denies the input	
 	"""
 	def __init__(self, alphabet, states, initial_state, delta, final_states):
 		"""Creates a new DFA
-		
 		Args:
 			alphabet (list): The DFA's alphabet
 			states (list): The DFA's states
@@ -35,6 +34,7 @@ class DFA:
 		self.delta = delta
 		self.final_states = final_states
 		self.current_state = initial_state
+	
 	def is_in_alphabet(self, value):
 		"""Tests if the value is in the alphabet
 		Args:
@@ -68,32 +68,34 @@ class DFA:
 			bool: If the current state is an acceptable final state
 		"""
 		return self.current_state in self.final_states
-
-
-
-
 #Main
-
-"""
-
-"""
 if __name__ == "__main__":
+	#this is where the NFA that has been translated is read in
 	with open('NFAtoDFA.json', 'r') as f:
 		data = f.read()
-		
-	#print("This is the DFA Definition")
-	#print(data)
+
 	data = json.loads(data)
-
 	place_holder = DFA(**data)
+	
+	#this is where the input comes in
 
-	userin = "abab"
+	userin = sys.argv[1]
 
-	for i in userin:
-		if place_holder.is_in_alphabet(i) == False:
-			print("ERROR: NOT VALID INPUT")
+	with open(userin, 'r') as f:
+		inputdata = f.read()
+	inputdata = inputdata.split('\n')
 
-	for i in userin:
-		place_holder.transition(i)
+	for i in range(len(inputdata)):
+		for j in inputdata[i]:
 
-	print (place_holder.if_accepted_state())
+			if place_holder.is_in_alphabet(j) == True:
+				for j in inputdata[i]:
+					place_holder.transition(j)
+			else:
+				print("ERROR: NOT VALID INPUT")
+				continue
+		
+		print (place_holder.if_accepted_state())
+
+		#reseting the state for the next input
+		place_holder.current_state = place_holder.initial_state
